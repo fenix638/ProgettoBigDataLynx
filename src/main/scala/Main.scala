@@ -13,5 +13,7 @@ object Main {
 
     println(jsonDF.toString())
 
+    println(jsonDF.toString())
+
   }
 }
