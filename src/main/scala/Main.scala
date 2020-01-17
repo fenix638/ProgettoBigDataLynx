@@ -15,7 +15,6 @@ object Main {
     val c = jsonDF.dtypes
     c.foreach(x=>println(x._1+" "+x._2))
 
-
   }
 
 
