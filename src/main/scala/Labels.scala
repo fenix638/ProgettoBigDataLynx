@@ -1,7 +1,7 @@
 case class Labels(
                  color:String,
-                 default:Boolean,
-                 id:Long,
+                 default:java.lang.Boolean,
+                 id:BigInt,
                  name:String,
                  url:String
                  )

@@ -1,5 +1,5 @@
 case class RepoFinale(
-                      id : Long,
+                      id : BigInt,
                       name : String,
                       url : String
                      )

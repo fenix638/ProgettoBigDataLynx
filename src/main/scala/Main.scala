@@ -31,7 +31,7 @@ object Main {
     val outputStream = new BufferedOutputStream(new FileOutputStream(new File("C:/Users/Studente/Desktop/FileCopiatoScala.json")))
     conn.connect()
     conn.setInstanceFollowRedirects(true)
-    var redirect: Boolean = false
+    var redirect: java.lang.Boolean = false
 
     if (conn.getResponseCode == 301) {
       redirect = true;

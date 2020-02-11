@@ -1,6 +1,6 @@
 case class RequestedTeams(
                            description:String,
-                           id:Long,
+                           id:BigInt,
                            members_url:String,
                            name:String,
                            permission:String,

@@ -1,5 +1,5 @@
 case class OrgFinale(
-                     id : Long,
+                     id : BigInt,
                      login : String,
                      gravatar_id : String,
                      url : String,

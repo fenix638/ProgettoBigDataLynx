@@ -1,6 +1,6 @@
 case class CommitPrincipale(
                            author: Author,
-                           distinct:Boolean,
+                           distinct:java.lang.Boolean,
                            message:String,
                            sha:String,
                            url:String

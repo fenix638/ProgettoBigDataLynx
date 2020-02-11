@@ -1,6 +1,6 @@
 case class commitsAttribute(sha : String,
                             author : Author,
                             message : String,
-                            distinct : Boolean,
+                            distinct : java.lang.Boolean,
                             url : String
                             )
