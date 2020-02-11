@@ -1,4 +1,4 @@
-case class Assigne(avatar_url : String,
+case class Assignee(avatar_url : String,
                    events_url : String,
                    followers_url : String,
                    following_url : String,

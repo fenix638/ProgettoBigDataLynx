@@ -71,7 +71,7 @@ class Repo(
          val  watchers:Long,
          val  watchers_count:Long
           ) extends Product with Serializable {
-           def canEqual(that: Any) = that.isInstanceOf[Forkee]
+           def canEqual(that: Any) = that.isInstanceOf[Repo]
            def productArity = 71 // number of columns
 
       def productElement(idx: Int) = idx match {
