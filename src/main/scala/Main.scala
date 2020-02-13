@@ -2,7 +2,9 @@ import java.io._
 import java.net.{HttpURLConnection, URL}
 import java.util.Properties
 import java.util.zip.GZIPInputStream
+
 import org.apache.commons.io.IOUtils
+import org.apache.spark.sql.DataFrame
 import org.apache.spark.sql.hive.HiveContext
 import org.apache.spark.{SparkConf, SparkContext}
 
@@ -13,7 +15,7 @@ object Main {
   def readProperties(): String = {
     val prop: Properties = new Properties()
 
-    prop.load(new FileInputStream(new File("C:\\Users\\Studente\\Desktop\\ProgettoBigData2019\\eskere\\ProgettoBigDataLynx\\src\\main\\resources\\application.properties")))
+    prop.load(new FileInputStream(new File("src/main/resources/application.properties")))
 
     val path = "http://data.githubarchive.org/"+prop.getProperty("Anno")+"-"+prop.getProperty("Mese")+"-"+prop.getProperty("Giorno")+"-0.json.gz"
 
@@ -67,17 +69,58 @@ object Main {
     val sc = new SparkContext(conf)
 
     val hiveContext = new HiveContext(sc)
-    /*   val jsonDF = hiveContext.read.json("D:/Lynx/Big Data/cose/abc.json")
+       val jsonDF = hiveContext.read.json("C:\\Users\\Studente\\Desktop\\FileCopiatoScala.json")
+
+    singoliActor(jsonDF)
+
+
+
+
+
+
+
+
+
 
      // println(jsonDF.toString());
 
-      val c = jsonDF.dtypes
-      c.foreach(x=>println(x._1+" "+x._2))
-*/
-    val path = readProperties();
 
-    downloadFile(path);
+    // val c = jsonDF.dtypes
+    // c.foreach(x=>println(x._1+" "+x._2))
+
+    // val path = readProperties();
+
+    // downloadFile(path);
 
   }
+
+  //Trovare i singoli «actor» e salvarli in formato csv/su db postgres su un file;
+
+  def singoliActor(jsonDF:DataFrame): Unit = {
+    val query = jsonDF.groupBy("actor").count().collectAsList()
+
+    val fileActor = new File("C:\\Users\\Studente\\Desktop\\actor.csv")
+
+    val printActor = new FileWriter(fileActor)
+
+    printActor.write(query.toString)
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
