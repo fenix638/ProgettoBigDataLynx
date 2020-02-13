@@ -10,7 +10,7 @@ class IssuePrincipaleForRDD(
                          val events_url:String,
                          val html_url:String,
                          val id:BigInt,
-                         val labels: Array [Labels],
+                         val labels: Array [LabelsForRDD],
                          val labels_url:String,
                          val locked:java.lang.Boolean,
                          val milestone: MilestoneForRDD,

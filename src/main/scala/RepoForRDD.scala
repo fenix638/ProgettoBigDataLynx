@@ -51,7 +51,7 @@ class RepoForRDD(
          val open_issues:BigInt,
          val open_issues_count:BigInt,
          val owner: OwnerForRDD,
-         val private_field:java.lang.Boolean,
+         //val private_field:java.lang.Boolean,
          val pulls_url:String,
          val pushed_at :String,
          val releases_url:String,
@@ -72,7 +72,7 @@ class RepoForRDD(
          val  watchers_count:BigInt
           ) extends Product with Serializable {
            def canEqual(that: Any) = that.isInstanceOf[RepoForRDD]
-           def productArity = 71 // number of columns
+           def productArity = 70 // number of columns
 
       def productElement(idx: Int) = idx match {
 
@@ -128,25 +128,25 @@ case 48=> notifications_url
 case 49=> open_issues
 case 50=> open_issues_count
 case 51=> owner
-case 52=> private_field
-case 53=> pulls_url
-case 54=> pushed_at
-case 55=> releases_url
-case 56=> size
-case 57=> ssh_url
-case 58=> stargazers_count
-case 59=> stargazers_url
-case 60=> statuses_url
-case 61=> subscribers_url
-case 62=> subscription_url
-case 63=> svn_url
-case 64=> tags_url
-case 65=> teams_url
-case 66=> trees_url
-case 67=> updated_at
-case 68=> url
-case 69=> watchers
-case 70=> watchers_count
+//case 52=> private_field
+case 52=> pulls_url
+case 53=> pushed_at
+case 54=> releases_url
+case 55=> size
+case 56=> ssh_url
+case 57=> stargazers_count
+case 58=> stargazers_url
+case 59=> statuses_url
+case 60=> subscribers_url
+case 61=> subscription_url
+case 62=> svn_url
+case 63=> tags_url
+case 64=> teams_url
+case 65=> trees_url
+case 66=> updated_at
+case 67=> url
+case 68=> watchers
+case 69=> watchers_count
 
       }
 

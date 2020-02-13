@@ -19,7 +19,7 @@ class PullRequestPrincipaleForRDD(
                              val html_url:String,
                              val id:BigInt,
                              val issue_url:String,
-                             val labels: Array[Labels],
+                             val labels: Array[LabelsForRDD],
                              val locked:java.lang.Boolean,
                              val maintainer_can_modify:java.lang.Boolean,
                              val merge_commit_sha:String,

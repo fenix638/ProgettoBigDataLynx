@@ -51,8 +51,8 @@ class ForkeeForRDD(
                    val open_issues:BigInt,
                    val open_issues_count:BigInt,
                    val owner:OwnerForRDD,
-                   val private_field:java.lang.Boolean,
-                   val public_field:java.lang.Boolean,
+                   //val private_field:java.lang.Boolean,
+                   //val public_field:java.lang.Boolean,
                    val pulls_url:String,
                    val pushed_at:String,
                    val releases_url:String,
@@ -77,7 +77,7 @@ class ForkeeForRDD(
 
                  )extends Product with Serializable{
   def canEqual(that: Any) = that.isInstanceOf[ForkeeForRDD]
-  def productArity = 72 // number of columns
+  def productArity = 70 // number of columns
 
   def productElement(idx: Int) = idx match {
     case 0 => archive_url
@@ -132,26 +132,26 @@ class ForkeeForRDD(
     case 49=> open_issues
     case 50=> open_issues_count
     case 51=> owner
-    case 52=> private_field
-    case 53=> public_field
-    case 54=> pulls_url
-    case 55=> pushed_at
-    case 56=> releases_url
-    case 57=> size
-    case 58=> ssh_url
-    case 59=> stargazers_count
-    case 60=> stargazers_url
-    case 61=> statuses_url
-    case 62=> subscribers_url
-    case 63=> subscription_url
-    case 64=> svn_url
-    case 65=> tags_url
-    case 66=> teams_url
-    case 67=> trees_url
-    case 68=> updated_at
-    case 69=> url
-    case 70=> watchers
-    case 71=> watchers_count
+    //case 52=> private_field
+    //case 53=> public_field
+    case 52=> pulls_url
+    case 53=> pushed_at
+    case 54=> releases_url
+    case 55=> size
+    case 56=> ssh_url
+    case 57=> stargazers_count
+    case 58=> stargazers_url
+    case 59=> statuses_url
+    case 60=> subscribers_url
+    case 61=> subscription_url
+    case 62=> svn_url
+    case 63=> tags_url
+    case 64=> teams_url
+    case 65=> trees_url
+    case 66=> updated_at
+    case 67=> url
+    case 68=> watchers
+    case 69=> watchers_count
 
 
 

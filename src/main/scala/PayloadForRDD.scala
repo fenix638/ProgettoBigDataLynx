@@ -12,7 +12,7 @@ case class PayloadForRDD(
                   member: MemberForRDD,
                   number:BigInt,
                   pages: Pages,
-                  pull_request: PullRequestPrincipale,
+                  pull_request: PullRequestPrincipaleForRDD,
                   push_id:BigInt,
                   pusher_type:String,
                   ref:String,

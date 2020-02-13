@@ -13,6 +13,6 @@ case class OwnerForRDD(avatar_url : String,
                        site_admin : java.lang.Boolean,
                        starred_url : String,
                        subscriptions_url : String,
-                       type_field : String,
+                       //type_field : String,
                        url : String
                 )
