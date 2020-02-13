@@ -73,21 +73,6 @@ object Main {
 
     singoliActor(jsonDF)
 
-
-
-
-
-
-
-
-
-
-     // println(jsonDF.toString());
-
-
-    // val c = jsonDF.dtypes
-    // c.foreach(x=>println(x._1+" "+x._2))
-
     // val path = readProperties();
 
     // downloadFile(path);
