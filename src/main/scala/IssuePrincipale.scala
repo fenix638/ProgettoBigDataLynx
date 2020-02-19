@@ -15,7 +15,7 @@ class IssuePrincipale(
                          val locked:java.lang.Boolean,
                          val milestone: Milestone,
                          val number:BigInt,
-                         val pullRequest: PullRequest,
+                         val pull_request: PullRequest,
                          val repository_url:String,
                          val state:String,
                          val title:String,
@@ -43,7 +43,7 @@ class IssuePrincipale(
                               case 13=> locked
                               case 14=> milestone
                               case 15=> number
-                              case 16=> pullRequest
+                              case 16=> pull_request
                               case 17=> repository_url
                               case 18=> state
                               case 19=> title

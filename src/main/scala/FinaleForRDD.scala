@@ -1,6 +1,6 @@
 case class FinaleForRDD(
                  id:String,
-                 //type_field:String,
+                 type_field:String,
                  actor:ActorFinale,
                  repo:RepoFinale,
                  payload: PayloadForRDD,

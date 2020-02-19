@@ -22,12 +22,12 @@ class FinaleTest extends FlatSpec with Matchers {
       .withColumnRenamed("default","default_field")
       newJsonDF.show()
 
-    val userDF = newJsonDF.select("payload.issue.user.*").withColumnRenamed("type","type_field")
+   /* val userDF = newJsonDF.select("payload.issue.user.*").withColumnRenamed("type","type_field")
 
-    userDF.show()
+    userDF.show()*/
 
     val datasetParsed = newJsonDF.as[FinaleForRDD]
-    print(datasetParsed.count())
+   // print(datasetParsed.count())
 
 
     //val dfJson = sqlContext.read.json("C:\\Users\\Scott\\Desktop\\PayloadTest.json")

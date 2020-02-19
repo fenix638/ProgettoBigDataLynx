@@ -47,7 +47,7 @@ class PullRequestPrincipale(
 
                            )extends Product with Serializable {
                             def canEqual(that: Any) = that.isInstanceOf[PullRequestPrincipale]
-                            def productArity = 71 // number of columns
+                            def productArity = 44 // number of columns
 
                             def productElement(idx: Int) = idx match {
 

@@ -1,5 +1,5 @@
 case class CommentForRDD(
-                  _links: _Links2,
+                  _links: _Links2ForRDD,
                   author_association:String,
                   body:String,
                   commit_id:String,

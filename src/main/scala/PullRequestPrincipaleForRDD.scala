@@ -14,7 +14,7 @@ class PullRequestPrincipaleForRDD(
                              val commits_url:String,
                              val created_at:String,
                              val deletions:BigInt,
-                             val diff_url:String,
+                             //val diff_url:String,
                              val head: HeadForRDD,
                              val html_url:String,
                              val id:BigInt,
@@ -47,7 +47,7 @@ class PullRequestPrincipaleForRDD(
 
                            )extends Product with Serializable {
                             def canEqual(that: Any) = that.isInstanceOf[PullRequestPrincipaleForRDD]
-                            def productArity = 71 // number of columns
+                            def productArity = 43 // number of columns
 
                             def productElement(idx: Int) = idx match {
 
@@ -66,33 +66,33 @@ class PullRequestPrincipaleForRDD(
                               case 12=> commits_url
                               case 13=> created_at
                               case 14=> deletions
-                              case 15=> diff_url
-                              case 16=> head
-                              case 17=> html_url
-                              case 18=> id
-                              case 19=> issue_url
-                              case 20=> labels
-                              case 21=> locked
-                              case 22=> maintainer_can_modify
-                              case 23=> merge_commit_sha
-                              case 24=> mergeable
-                              case 25=> mergeable_state
-                              case 26=> merged
-                              case 27=> merged_at
-                              case 28=> merged_by
-                              case 29=> milestone
-                              case 30=> number
-                              case 31=> patch_url
-                              case 32=> rebaseable
-                              case 33=> requested_reviewers
-                              case 34=> requested_teams
-                              case 35=> review_comment_url
-                              case 36=> review_comments
-                              case 37=> review_comments_url
-                              case 38=> state
-                              case 39=> statuses_url
-                              case 40=> title
-                              case 41=> updated_at
-                              case 42=> url
-                              case 43=> user
+                              //case 15=> diff_url
+                              case 15=> head
+                              case 16=> html_url
+                              case 17=> id
+                              case 18=> issue_url
+                              case 19=> labels
+                              case 20=> locked
+                              case 21=> maintainer_can_modify
+                              case 22=> merge_commit_sha
+                              case 23=> mergeable
+                              case 24=> mergeable_state
+                              case 25=> merged
+                              case 26=> merged_at
+                              case 27=> merged_by
+                              case 28=> milestone
+                              case 29=> number
+                              case 30=> patch_url
+                              case 31=> rebaseable
+                              case 32=> requested_reviewers
+                              case 33=> requested_teams
+                              case 34=> review_comment_url
+                              case 35=> review_comments
+                              case 36=> review_comments_url
+                              case 37=> state
+                              case 38=> statuses_url
+                              case 39=> title
+                              case 40=> updated_at
+                              case 41=> url
+                              case 42=> user
                             }}
