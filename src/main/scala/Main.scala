@@ -102,10 +102,19 @@ object Main {
 
     //countMaxEventPerActor(newJsonDF)
 
-    countMaxEventPerRepo(newJsonDF)
+    //countMaxEventPerRepo(newJsonDF)
 
     //countCommitPerActor(newJsonDF)
 
+    //countCommitsPerTypeActorAndTime(newJsonDF)
+
+    //minMaxNumberOfCommitsPerRepo(newJsonDF)
+
+    //minMaxNumberOfCommitsPerRepoAndActor(newJsonDF)
+
+    //numberOfActorPerRepoTypeAndHour(newJsonDF)
+
+    maxMinNumberOfActorActivePerHourTypeAndRepo(newJsonDF)
   }
 
   def dfQuery(dfQuery: Array[Row], path: String): Unit = {
@@ -275,6 +284,73 @@ object Main {
     val queryRDD = rdd
   }
 
+  //Contare il numero di «commit», divisi per «type», «actor» e ora;
+  def countCommitsPerTypeActorAndTime(newJsonDF: DataFrame): Unit ={
+    //DF
+    val query = newJsonDF.groupBy("actor", "payload.commits","created_at").agg($"payload.commits").count()
+    println(query)
+    //DS
+    val datasetParsed = newJsonDF.as[FinaleForRDD]
+    val queryDS = datasetParsed.groupBy("actor", "payload.commits","created_at").agg($"payload.commits").count()
+    println(queryDS )
+    //RDD
+    val rdd = datasetParsed.rdd
+    val queryRDD = rdd
+  }
 
+  //Trovare il massimo/minimo numero di «commit» per «repo»;
+  def minMaxNumberOfCommitsPerRepo(newJsonDF: DataFrame): Unit ={
+    //DF
+    val queryMax = newJsonDF.groupBy($"payload.commits",$"repo").agg(count("payload.commits") as("a")).agg(max("a")).show()
+    val queryMin = newJsonDF.groupBy($"payload.commits",$"repo").agg(count("payload.commits") as("b")).agg(min("b")).show()
+    //DS
+    val datasetParsed = newJsonDF.as[FinaleForRDD]
+    val queryDSMax = datasetParsed.groupBy($"payload.commits",$"repo").agg(count("payload.commits") as("a")).agg(max("a")).show()
+    val queryDsMin = datasetParsed.groupBy($"payload.commits",$"repo").agg(count("payload.commits") as("b")).agg(min("b")).show()
+    //RDD
+    val rdd = datasetParsed.rdd
+    val queryRDD = rdd
+  }
 
+  //Trovare il massimo/minimo numero di «commit» per ora per «repo» e «actor»;
+  def minMaxNumberOfCommitsPerRepoAndActor(newJsonDF: DataFrame): Unit ={
+    //DF
+    val queryMax = newJsonDF.groupBy($"payload.commits",$"repo",$"actor").agg(count("payload.commits") as("a")).agg(max("a")).show()
+    val queryMin = newJsonDF.groupBy($"payload.commits",$"repo",$"actor").agg(count("payload.commits") as("b")).agg(min("b")).show()
+    //DS
+    val datasetParsed = newJsonDF.as[FinaleForRDD]
+    val queryDSMax = datasetParsed.groupBy($"payload.commits",$"repo",$"actor").agg(count("payload.commits") as("a")).agg(max("a")).show()
+    val queryDsMin = datasetParsed.groupBy($"payload.commits",$"repo",$"actor").agg(count("payload.commits") as("b")).agg(min("b")).show()
+    //RDD
+    val rdd = datasetParsed.rdd
+    val queryRDD = rdd
+  }
+
+  //Contare il numero di «actor», divisi per «repo»,«type» e «ora»;
+  def numberOfActorPerRepoTypeAndHour(newJsonDF: DataFrame): Unit ={
+    //DF
+    val query = newJsonDF.groupBy("type_field", "repo","created_at","actor").agg($"actor").count()
+    println(query)
+    //DS
+    val datasetParsed = newJsonDF.as[FinaleForRDD]
+    val queryDS = datasetParsed.groupBy("type_field", "repo","created_at","actor").agg($"actor").count()
+    println(queryDS )
+    //RDD
+    val rdd = datasetParsed.rdd
+    val queryRDD = rdd
+  }
+
+  //Il massimo/minimo numero di «actor» attivi per ora, «type» e «repo»;
+  def maxMinNumberOfActorActivePerHourTypeAndRepo(newJsonDF: DataFrame): Unit ={
+    //DF
+    val queryMax = newJsonDF.groupBy($"created_at",$"repo",$"actor",$"type_field").agg(count("actor") as("a")).agg(max("a")).show()
+    val queryMin = newJsonDF.groupBy($"created_at",$"repo",$"actor",$"type_field").agg(count("actor") as("b")).agg(min("b")).show()
+    //DS
+    val datasetParsed = newJsonDF.as[FinaleForRDD]
+    val queryDSMax = datasetParsed.groupBy($"created_at",$"repo",$"actor",$"type_field").agg(count("actor") as("a")).agg(max("a")).show()
+    val queryDsMin = datasetParsed.groupBy($"created_at",$"repo",$"actor",$"type_field").agg(count("actor") as("b")).agg(min("b")).show()
+    //RDD
+    val rdd = datasetParsed.rdd
+    val queryRDD = rdd
+  }
 }
