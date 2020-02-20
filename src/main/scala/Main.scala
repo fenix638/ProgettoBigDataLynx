@@ -12,6 +12,7 @@ import org.apache.spark.sql.hive.HiveContext
 import org.apache.spark.sql.types.StructType
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.sql.functions._
+import org.apache.spark.sql.Row
 
 
 object Main {
@@ -99,6 +100,8 @@ object Main {
     //countEvent(newJsonDF)
 
     //countMaxEventPerActor(newJsonDF)
+
+    countMaxEventPerRepo(newJsonDF)
 
     //countCommitPerActor(newJsonDF)
 
@@ -250,19 +253,28 @@ object Main {
   //Trovare il massimo/minimo numero di «event» per «actor»;
   def countMaxEventPerActor(newJsonDF: DataFrame): Unit ={
     //DF
-    val query = newJsonDF.groupBy( "actor").max("type_field").count()
-    println(query)
+    val queryMax = newJsonDF.groupBy($"type_field",$"actor").agg(count("type_field") as("a")).agg(max("a")).show()
+    val queryMin = newJsonDF.groupBy($"type_field",$"actor").agg(count("type_field") as("b")).agg(min("b")).show()
     //DS
     val datasetParsed = newJsonDF.as[FinaleForRDD]
-    val queryDS = datasetParsed.groupBy("actor","type_field").agg($"type_field").count()
-    println(queryDS )
+    val queryDSMax = datasetParsed.groupBy($"type_field",$"actor").agg(count("type_field") as("a")).agg(max("a")).show()
+    val queryDsMin = datasetParsed.groupBy($"type_field",$"actor").agg(count("type_field") as("a")).agg(min("a")).show()
     //RDD
     val rdd = datasetParsed.rdd
     val queryRDD = rdd
   }
   //Trovare il massimo/minimo numero di «event» per ora per «repo»;
-  def countMaxEventPerRepo(): Unit ={
-
+  def countMaxEventPerRepo(newJsonDF: DataFrame): Unit ={
+    //DF
+    val queryMax = newJsonDF.groupBy($"type_field",$"repo",$"created_at").agg(count("type_field") as("a")).agg(max("a")).show()
+    val queryMin = newJsonDF.groupBy($"type_field",$"repo",$"created_at").agg(count("type_field") as("b")).agg(min("b")).show()
+    //DS
+    val datasetParsed = newJsonDF.as[FinaleForRDD]
+    val queryDSMax = datasetParsed.groupBy($"type_field",$"repo",$"created_at").agg(count("type_field") as("a")).agg(max("a")).show()
+    val queryDsMin = datasetParsed.groupBy($"type_field",$"repo",$"created_at").agg(count("type_field") as("a")).agg(min("a")).show()
+    //RDD
+    val rdd = datasetParsed.rdd
+    val queryRDD = rdd
   }
 
   //Contare il numero di «commit» per ogni «actor»;
