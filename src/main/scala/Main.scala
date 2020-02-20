@@ -11,7 +11,7 @@ import org.apache.spark.sql.catalyst.ScalaReflection
 import org.apache.spark.sql.hive.HiveContext
 import org.apache.spark.sql.types.StructType
 import org.apache.spark.{SparkConf, SparkContext}
-
+import org.apache.spark.sql.functions._
 
 
 object Main {
@@ -86,7 +86,7 @@ object Main {
 
   def main(args: Array[String]): Unit = {
 
-    //val path = readProperties();
+   // val path = readProperties();
 
     //downloadFile(path);
 
@@ -102,6 +102,23 @@ object Main {
 
     //countCommitPerActor(newJsonDF)
 
+    //countEventPerActor(newJsonDF)
+
+    //countCommitDivisiPerActorEType(newJsonDF)
+
+    //countEventPerOraActorRepoEType(newJsonDF)
+
+    //countMaxMinEventPerActorOraRepo(newJsonDF)
+
+    //tipiEvent(newJsonDF)
+
+    //countMaxMinCommitPerOra(newJsonDF)
+
+    //countMaxMinCommitPerOraActor
+
+    //countActorPerOra(newJsonDF)
+
+    //countMaxMinActorPerOra(newJsonDF)
   }
 
   def dfQuery(dfQuery: Array[Row], path: String): Unit = {
@@ -261,6 +278,142 @@ object Main {
     val rdd = datasetParsed.rdd
     val queryRDD = rdd
   }
+
+
+  //Contare il numero di <<event>> per ogni <<actor>>
+  def countEventPerActor(newJsonDF: DataFrame): Unit ={
+    //DF
+    val query = newJsonDF.groupBy("actor", "type_field").agg($"type_field").count()
+    println(query)
+    //DS
+    val datasetParsed = newJsonDF.as[FinaleForRDD]
+    val queryDS = datasetParsed.groupBy("actor", "type_field").agg($"type_field").count()
+    println(queryDS)
+    //RDD
+    val rdd = datasetParsed.rdd
+    val queryRDD = rdd
+  }
+
+  //Contare il numero di <<commit>> divisi per <<type>> e <<actor>>
+
+  def countCommitDivisiPerActorEType(newJsonDF: DataFrame): Unit ={
+    //DF
+    val query = newJsonDF.groupBy("payload.commits", "type_field", "actor").agg($"payload.commits").count()
+    println(query)
+    //DS
+    val datasetParsed = newJsonDF.as[FinaleForRDD]
+    val queryDS = datasetParsed.groupBy("payload.commits", "type_field", "actor").agg($"payload.commits").count()
+    println(queryDS)
+    //RDD
+    val rdd = datasetParsed.rdd
+    val queryRDD = rdd
+  }
+
+  //Contare il numero di «event», divisi per «type», «actor», «repo» e <<ora>>;
+  def countEventPerOraActorRepoEType(newJsonDF: DataFrame): Unit = {
+    //DF
+    val query = newJsonDF.groupBy("type_field", "actor", "repo", "created_at").agg($"type_field").count()
+    println(query)
+    //DS
+    val datasetParsed = newJsonDF.as[FinaleForRDD]
+    val queryDS = datasetParsed.groupBy("type_field", "actor", "repo", "created_at").agg($"type_field").count()
+    println(queryDS )
+    //RDD
+    val rdd = datasetParsed.rdd
+    val queryRDD = rdd
+  }
+
+
+  //Trovare il massimo/minimo numero di «event» per <<ora>> , <<repo>>, «actor»;
+  def countMaxMinEventPerActorOraRepo(newJsonDF: DataFrame): Unit ={
+    //DF
+    val queryMax = newJsonDF.groupBy($"type_field",$"actor", $"repo", $"created_at").agg(count("type_field").as("a")).agg(max("a")).show()
+    val queryMin = newJsonDF.groupBy($"type_field",$"actor", $"repo", $"created_at").agg(count("type_field").as("a")).agg(min("a")).show()
+    //DS
+    val datasetParsed = newJsonDF.as[FinaleForRDD]
+    val queryDSMax = datasetParsed.groupBy($"type_field",$"actor", $"repo", $"created_at").agg(count("type_field").as("a")).agg(max("a")).show()
+    val queryDSMin = datasetParsed.groupBy($"type_field",$"actor", $"repo", $"created_at").agg(count("type_field").as("a")).agg(min("a")).show()
+    //RDD
+    val rdd = datasetParsed.rdd
+    val queryRDD = rdd
+  }
+
+  //Trovare i vari tipi di evento <<type>> e salvarli in formato csv
+  def tipiEvent(newJsonDF: DataFrame): Unit = {
+    val query = newJsonDF.select(newJsonDF.col("type_field")).distinct().collect()
+
+    dfQuery(query, "TipiDiEventDF")
+    //DATASET
+    val datasetParsed = newJsonDF.as[FinaleForRDD]
+    val queryDS = datasetParsed.select(datasetParsed.col("type_field")).distinct().collect()
+    dsQuery(queryDS, "TipiDiEventDS")
+
+    //RDD
+    val rdd = datasetParsed.rdd
+    val queryRDD = rdd.filter(
+      x => x.repo != null
+    ).map(x => x.repo).distinct().collect()
+
+    rddQuery(queryRDD.map(_.toString), "TipiDiEventRDD")
+  }
+
+  //Trovare il massimo/minimo numero di <<commit>> per ora
+  def countMaxMinCommitPerOra(newJsonDF: DataFrame): Unit ={
+    //DF
+    val queryMax = newJsonDF.groupBy($"payload.commits", $"created_at").agg(count("payload.commits").as("a")).agg(max("a")).show()
+    val queryMin = newJsonDF.groupBy($"payload.commits", $"created_at").agg(count("payload.commits").as("a")).agg(min("a")).show()
+    //DS
+    val datasetParsed = newJsonDF.as[FinaleForRDD]
+    val queryDSMax = datasetParsed.groupBy($"payload.commits", $"created_at").agg(count("payload.commits").as("a")).agg(max("a")).show()
+    val queryDSMin = datasetParsed.groupBy($"payload.commits", $"created_at").agg(count("payload.commits").as("a")).agg(min("a")).show()
+    //RDD
+    val rdd = datasetParsed.rdd
+    val queryRDD = rdd
+  }
+
+  //Trovare il massimo/minimo numero di <<commit>> per ora e per actor
+  def countMaxMinCommitPerOraActor(newJsonDF: DataFrame): Unit ={
+    //DF
+    val queryMax = newJsonDF.groupBy($"payload.commits", $"created_at", $"actor").agg(count("payload.commits").as("a")).agg(max("a")).show()
+    val queryMin = newJsonDF.groupBy($"payload.commits", $"created_at", $"actor").agg(count("payload.commits").as("a")).agg(min("a")).show()
+    //DS
+    val datasetParsed = newJsonDF.as[FinaleForRDD]
+    val queryDSMax = datasetParsed.groupBy($"payload.commits", $"created_at", $"actor").agg(count("payload.commits").as("a")).agg(max("a")).show()
+    val queryDSMin = datasetParsed.groupBy($"payload.commits", $"created_at", $"actor").agg(count("payload.commits").as("a")).agg(min("a")).show()
+    //RDD
+    val rdd = datasetParsed.rdd
+    val queryRDD = rdd
+  }
+
+  //Contare il numero di <<actor>> attivi per ogni <<ora>>
+  def countActorPerOra(newJsonDF: DataFrame): Unit ={
+    //DF
+    val query = newJsonDF.select("actor", "created_at").groupBy($"created_at").count().show()
+    println(query)
+    //DS
+    val datasetParsed = newJsonDF.as[FinaleForRDD]
+    val queryDS = datasetParsed.select("actor", "created_at").groupBy($"created_at").count().show()
+    println(queryDS)
+    //RDD
+    val rdd = datasetParsed.rdd
+    val queryRDD = rdd
+  }
+
+  //Trovare il massimo/minimo numero di <<actor>> attivi per <<ora>>
+  def countMaxMinActorPerOra(newJsonDF: DataFrame): Unit ={
+    //DF
+    val queryMax = newJsonDF.groupBy( $"created_at", $"actor").agg(count("created_at").as("a")).agg(max("a")).show()
+    val queryMin = newJsonDF.groupBy( $"created_at", $"actor").agg(count("created_at").as("a")).agg(min("a")).show()
+    //DS
+    val datasetParsed = newJsonDF.as[FinaleForRDD]
+    val queryDSMax = datasetParsed.groupBy( $"created_at", $"actor").agg(count("created_at").as("a")).agg(max("a")).show()
+    val queryDSMin = datasetParsed.groupBy( $"created_at", $"actor").agg(count("created_at").as("a")).agg(min("a")).show()
+    //RDD
+    val rdd = datasetParsed.rdd
+    val queryRDD = rdd
+
+  }
+
 
 
 
